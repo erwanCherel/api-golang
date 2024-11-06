@@ -7,16 +7,11 @@ import (
 )
 
 func SetupUserRoutes(router fiber.Router) {
-	user := router.Group("/users")
+	user := router.Group("/user")
 
-	// Create a User
 	user.Post("/", userHandler.CreateUser)
-	// Read all Users
 	user.Get("/", userHandler.GetUsers)
-	// // Read one User
 	user.Get("/:id", userHandler.GetUser)
-	// // Update one User
 	// User.Put("/:userId", userHandler.UpdateUser)
-	// // Delete one User
 	// User.Delete("/:userId", userHandler.DeleteUser)
 }

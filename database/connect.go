@@ -11,10 +11,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// Declare the variable for the database
 var DB *gorm.DB
 
-// ConnectDB connects to the MySQL database
 func ConnectDB() {
 	var err error
 	p := config.Config("DB_PORT")
@@ -25,7 +23,6 @@ func ConnectDB() {
 		return
 	}
 
-	// Connection URL to connect to MySQL Database
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Config("DB_USER"),
 		config.Config("DB_PASSWORD"),
@@ -33,7 +30,7 @@ func ConnectDB() {
 		port,
 		config.Config("DB_NAME"),
 	)
-	// Connect to the DB and initialize the DB variable
+
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {

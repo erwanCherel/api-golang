@@ -1,6 +1,7 @@
 package router
 
 import (
+	authRoutes "myapi/routes/auth"
 	healthRoutes "myapi/routes/health"
 	userRoutes "myapi/routes/user"
 
@@ -14,4 +15,5 @@ func SetupRoutes(app *fiber.App) {
 
 	healthRoutes.SetupHealthRoutes(api)
 	userRoutes.SetupUserRoutes(api)
+	authRoutes.SetupAuthRoutes(api)
 }

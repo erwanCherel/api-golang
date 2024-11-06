@@ -5,11 +5,11 @@ import (
 )
 
 type User struct {
-	ID        int       `gorm:"primaryKey" json:"id"` // Changed to int
+	ID        int       `gorm:"primaryKey" json:"id"`
 	Username  string    `gorm:"unique;not null" json:"username"`
 	Pseudo    string    `json:"pseudo,omitempty"`
 	Email     string    `gorm:"unique;not null" json:"email,omitempty"`
-	Password  string    `gorm:"not null" json:"-"`
+	Password  string    `gorm:"not null" json:"password"`
 	CreatedAt time.Time `json:"created_at"`
 	Videos    []Video   `gorm:"foreignKey:UserID" json:"-"`
 	Comments  []Comment `gorm:"foreignKey:UserID" json:"-"`
@@ -17,10 +17,10 @@ type User struct {
 }
 
 type Video struct {
-	ID        int           `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
+	ID        int           `gorm:"primaryKey;autoIncrement" json:"id"`
 	Name      string        `gorm:"not null" json:"name"`
 	Duration  int           `json:"duration"`
-	UserID    int           `gorm:"not null" json:"user_id"` // Changed to int
+	UserID    int           `gorm:"not null" json:"user_id"`
 	User      User          `gorm:"foreignKey:UserID" json:"user"`
 	Source    string        `gorm:"not null" json:"source"`
 	CreatedAt time.Time     `json:"created_at"`
@@ -31,26 +31,26 @@ type Video struct {
 }
 
 type VideoFormat struct {
-	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
+	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"`
 	Code    string `gorm:"not null" json:"code"`
 	URI     string `gorm:"not null" json:"uri"`
-	VideoID int    `gorm:"not null" json:"video_id"` // Changed to int
+	VideoID int    `gorm:"not null" json:"video_id"`
 }
 
 type Token struct {
-	ID        int       `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
+	ID        int       `gorm:"primaryKey;autoIncrement" json:"id"`
 	Code      string    `gorm:"unique;not null" json:"token"`
 	ExpiredAt time.Time `json:"expired_at"`
-	UserID    int       `gorm:"not null" json:"user_id"` // Changed to int
+	UserID    int       `gorm:"not null" json:"user_id"`
 	User      User      `gorm:"foreignKey:UserID" json:"user"`
 }
 
 type Comment struct {
-	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
+	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"`
 	Body    string `gorm:"type:longtext" json:"body"`
-	UserID  int    `gorm:"not null" json:"user_id"` // Changed to int
+	UserID  int    `gorm:"not null" json:"user_id"`
 	User    User   `gorm:"foreignKey:UserID" json:"user"`
-	VideoID int    `gorm:"not null" json:"video_id"` // Changed to int
+	VideoID int    `gorm:"not null" json:"video_id"`
 }
 
 type VideoFormatMap struct {
