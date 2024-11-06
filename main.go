@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"myapi/database"
 	"myapi/routes"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,9 +10,9 @@ import (
 func main() {
 	app := fiber.New()
 
-	port := "5000"
+	database.ConnectDB()
 
 	routes.Routes(app)
 
-	log.Fatal(app.Listen(fmt.Sprintf(":%s", port)))
+	app.Listen(":3000")
 }
