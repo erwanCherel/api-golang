@@ -1,4 +1,4 @@
-package handlers
+package healthHandler
 
 import "github.com/gofiber/fiber/v2"
 

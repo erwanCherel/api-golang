@@ -4,9 +4,8 @@ import (
 	"time"
 )
 
-// User model representing the user table in the database
 type User struct {
-	ID        int       `gorm:"primaryKey;autoIncrement" json:"id"`
+	ID        int       `gorm:"primaryKey" json:"id"` // Changed to int
 	Username  string    `gorm:"unique;not null" json:"username"`
 	Pseudo    string    `json:"pseudo,omitempty"`
 	Email     string    `gorm:"unique;not null" json:"email,omitempty"`
@@ -17,48 +16,43 @@ type User struct {
 	Tokens    []Token   `gorm:"foreignKey:UserID" json:"-"`
 }
 
-// Video model representing the video table in the database
 type Video struct {
-	ID        int           `gorm:"primaryKey;autoIncrement" json:"id"`
-	Name      string        `gorm:"not null" json:"-"`
-	Duration  int           `json:"-"`
-	UserID    int           `gorm:"not null" json:"-"`
+	ID        int           `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
+	Name      string        `gorm:"not null" json:"name"`
+	Duration  int           `json:"duration"`
+	UserID    int           `gorm:"not null" json:"user_id"` // Changed to int
 	User      User          `gorm:"foreignKey:UserID" json:"user"`
 	Source    string        `gorm:"not null" json:"source"`
 	CreatedAt time.Time     `json:"created_at"`
 	Views     int           `json:"views"`
 	Enabled   bool          `json:"enabled"`
-	Formats   []VideoFormat `gorm:"foreignKey:VideoID" json:"format"`
-	Comments  []Comment     `gorm:"foreignKey:VideoID" json:"-"`
+	Formats   []VideoFormat `gorm:"foreignKey:VideoID" json:"formats"`
+	Comments  []Comment     `gorm:"foreignKey:VideoID" json:"comments"`
 }
 
-// VideoFormat model representing the video_format table in the database
 type VideoFormat struct {
-	ID      int    `gorm:"primaryKey;autoIncrement" json:"-"`
-	Code    string `gorm:"not null" json:"-"`
-	URI     string `gorm:"not null" json:"-"`
-	VideoID int    `gorm:"not null" json:"-"`
+	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
+	Code    string `gorm:"not null" json:"code"`
+	URI     string `gorm:"not null" json:"uri"`
+	VideoID int    `gorm:"not null" json:"video_id"` // Changed to int
 }
 
-// Token model representing the token table in the database
 type Token struct {
-	ID        int       `gorm:"primaryKey;autoIncrement" json:"-"`
+	ID        int       `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
 	Code      string    `gorm:"unique;not null" json:"token"`
-	ExpiredAt time.Time `json:"-"`
-	UserID    int       `gorm:"not null" json:"-"`
+	ExpiredAt time.Time `json:"expired_at"`
+	UserID    int       `gorm:"not null" json:"user_id"` // Changed to int
 	User      User      `gorm:"foreignKey:UserID" json:"user"`
 }
 
-// Comment model representing the comment table in the database
 type Comment struct {
-	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"`
+	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"` // Changed to int
 	Body    string `gorm:"type:longtext" json:"body"`
-	UserID  int    `gorm:"not null" json:"-"`
+	UserID  int    `gorm:"not null" json:"user_id"` // Changed to int
 	User    User   `gorm:"foreignKey:UserID" json:"user"`
-	VideoID int    `gorm:"not null" json:"-"`
+	VideoID int    `gorm:"not null" json:"video_id"` // Changed to int
 }
 
-// Custom format mapping for the video format resolution URIs
 type VideoFormatMap struct {
 	Resolution1080 string `json:"1080,omitempty"`
 	Resolution720  string `json:"720,omitempty"`
@@ -68,7 +62,6 @@ type VideoFormatMap struct {
 	Resolution144  string `json:"144,omitempty"`
 }
 
-// To map video formats by resolution, create a helper function
 func (v *Video) FormatMap() VideoFormatMap {
 	formatMap := VideoFormatMap{}
 	for _, format := range v.Formats {

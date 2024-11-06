@@ -2,7 +2,7 @@ package main
 
 import (
 	"myapi/database"
-	"myapi/routes"
+	"myapi/router"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,7 +12,7 @@ func main() {
 
 	database.ConnectDB()
 
-	routes.Routes(app)
+	router.SetupRoutes(app)
 
-	app.Listen(":3000")
+	app.Listen(":5000")
 }
