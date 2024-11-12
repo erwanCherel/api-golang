@@ -34,7 +34,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"username\": \"johndoe15\",\n        \"pseudo\": \"johndoe15\",\n        \"email\": \"johndoe15@mail.fr\",\n        \"password\": \"password\"\n    }",
+					"raw": "{\n        \"username\": \"johndoe\",\n        \"pseudo\": \"johndoe\",\n        \"email\": \"johndoe@mail.fr\",\n        \"password\": \"password\"\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -120,7 +120,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTE1NzUyMywiaWF0IjoxNzMxMDcxMTIzLCJzdWIiOjF9.dmGY2inWTuyLHXVAjYGbptLuOiaaNTQ70Mpo4y_iK9Q",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTQ3OTgzOCwiaWF0IjoxNzMxMzkzNDM4LCJzdWIiOjF9.pLufVAIqD5YQx35tpLJiDMpp1B95CyUU4KgBLzhpvyk",
 							"type": "string"
 						}
 					]
@@ -128,7 +128,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/api/protected/user/:id",
+					"raw": "http://localhost:5000/api/private/user/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -136,7 +136,7 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"protected",
+						"private",
 						"user",
 						":id"
 					],
@@ -158,7 +158,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTE1NzUyMywiaWF0IjoxNzMxMDcxMTIzLCJzdWIiOjF9.dmGY2inWTuyLHXVAjYGbptLuOiaaNTQ70Mpo4y_iK9Q",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTQ3NzE3NCwiaWF0IjoxNzMxMzkwNzc0LCJzdWIiOjF9.vqKibG5qiR6UZddoDX2xrn4zbhorP2SOAjGTXSCr8D8",
 							"type": "string"
 						}
 					]
@@ -167,7 +167,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"janedoe\",\n    \"pseudo\": \"janedoe\",\n    \"email\": \"janedoe@mail.fr\",\n    \"password\": \"password123\"\n}",
+					"raw": "{\n    \"username\": \"johndoe\",\n    \"pseudo\": \"johdne\",\n    \"email\": \"johndoe@mail.fr\",\n    \"password\": \"password123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -175,7 +175,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/protected/user/:id",
+					"raw": "http://localhost:5000/api/private/user/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -183,9 +183,343 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"protected",
+						"private",
 						"user",
 						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateVideo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTQ3NzU5OSwiaWF0IjoxNzMxMzkxMTk5LCJzdWIiOjF9._xjM0zFJ7PX8boDEr2YCr69gpURlEQ2POUjqq-2NgSM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Paulin",
+							"type": "text"
+						},
+						{
+							"key": "source",
+							"type": "file",
+							"src": "/home/erwan-cherel/Videos/paulin.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/private/user/:id/video",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"private",
+						"user",
+						":id",
+						"video"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetVideos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/videos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"videos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetVideosByUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/user/:id/videos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						":id",
+						"videos"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EncodeVideoByID",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "format",
+							"value": "480",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/erwan-cherel/ETNA/myapi/public/videos/1731261382_paulin.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/video/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"video",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateVideoByID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTQ3NzU5OSwiaWF0IjoxNzMxMzkxMTk5LCJzdWIiOjF9._xjM0zFJ7PX8boDEr2YCr69gpURlEQ2POUjqq-2NgSM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"new_paulin\",\n    \"user\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/private/video/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"private",
+						"video",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteVideoByID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTM1MDAzNSwiaWF0IjoxNzMxMjYzNjM1LCJzdWIiOjF9.CUlp5ay3Ond8rli9IZ-1LlEaWQPB7UE4gQUEcSEHHMQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/private/video/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"private",
+						"video",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostComment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTQ3NzU5OSwiaWF0IjoxNzMxMzkxMTk5LCJzdWIiOjF9._xjM0zFJ7PX8boDEr2YCr69gpURlEQ2POUjqq-2NgSM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"body\": \"Lorem ipsum\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/private/video/:id/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"private",
+						"video",
+						":id",
+						"comment"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCommentsByVideoID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAbWFpbC5mciIsImV4cCI6MTczMTQ3NzU5OSwiaWF0IjoxNzMxMzkxMTk5LCJzdWIiOjF9._xjM0zFJ7PX8boDEr2YCr69gpURlEQ2POUjqq-2NgSM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/private/video/:id/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"private",
+						"video",
+						":id",
+						"comments"
 					],
 					"variable": [
 						{

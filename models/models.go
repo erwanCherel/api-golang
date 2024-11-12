@@ -19,15 +19,13 @@ type User struct {
 type Video struct {
 	ID        int           `gorm:"primaryKey;autoIncrement" json:"id"`
 	Name      string        `gorm:"not null" json:"name"`
-	Duration  int           `json:"duration"`
 	UserID    int           `gorm:"not null" json:"user_id"`
-	User      User          `gorm:"foreignKey:UserID" json:"user"`
 	Source    string        `gorm:"not null" json:"source"`
 	CreatedAt time.Time     `json:"created_at"`
 	Views     int           `json:"views"`
 	Enabled   bool          `json:"enabled"`
 	Formats   []VideoFormat `gorm:"foreignKey:VideoID" json:"formats"`
-	Comments  []Comment     `gorm:"foreignKey:VideoID" json:"comments"`
+	Comments  []Comment     `gorm:"foreignKey:VideoID;constraint:OnDelete:CASCADE;" json:"comments"`
 }
 
 type VideoFormat struct {
@@ -49,8 +47,7 @@ type Comment struct {
 	ID      int    `gorm:"primaryKey;autoIncrement" json:"id"`
 	Body    string `gorm:"type:longtext" json:"body"`
 	UserID  int    `gorm:"not null" json:"user_id"`
-	User    User   `gorm:"foreignKey:UserID" json:"user"`
-	VideoID int    `gorm:"not null" json:"video_id"`
+	VideoID int    `gorm:"not null;constraint:OnDelete:CASCADE;" json:"video_id"`
 }
 
 type VideoFormatMap struct {

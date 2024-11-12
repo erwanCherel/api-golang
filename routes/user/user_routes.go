@@ -8,13 +8,16 @@ import (
 )
 
 func SetupUserRoutes(router fiber.Router) {
+	public := router.Group("/")
 
-	router.Get("/users", userHandler.GetUsers)
-	router.Get("/user/:id", userHandler.GetUser)
-	router.Post("/user", userHandler.CreateUser)
+	public.Get("/users", userHandler.GetUsers)
+	public.Get("/user/:id", userHandler.GetUser)
+	public.Post("/user", userHandler.CreateUser)
+	public.Get("/user/:id/videos", userHandler.GetVideosByUser)
 
-	userProtected := router.Group("/protected", middleware.AuthMiddleware)
+	private := router.Group("/private", middleware.AuthMiddleware)
 
-	userProtected.Put("/user/:id", userHandler.UpdateUser)
-	userProtected.Delete("/user/:id", userHandler.DeleteUser)
+	private.Put("/user/:id", userHandler.UpdateUser)
+	private.Delete("/user/:id", userHandler.DeleteUser)
+	private.Post("/user/:id/video", userHandler.CreateVideo)
 }

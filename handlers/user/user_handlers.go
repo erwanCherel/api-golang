@@ -1,9 +1,12 @@
 package userHandler
 
 import (
+	"fmt"
 	"myapi/database"
 	"myapi/models"
+	"path/filepath"
 	"strconv"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
@@ -249,5 +252,112 @@ func UpdateUser(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Ok",
 		"data":    user,
+	})
+}
+
+func CreateVideo(c *fiber.Ctx) error {
+	id := c.Params("id")
+	userID, err := strconv.Atoi(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid user ID",
+			"data":    nil,
+		})
+	}
+
+	file, err := c.FormFile("source")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "No video file uploaded",
+			"data":    err.Error(),
+		})
+	}
+
+	videoName := c.FormValue("name")
+	if videoName == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Video name is required",
+			"data":    nil,
+		})
+	}
+
+	publicPath := "./public/videos/"
+	fileName := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
+	filePath := filepath.Join(publicPath, fileName)
+
+	if err := c.SaveFile(file, filePath); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to save video",
+			"data":    err.Error(),
+		})
+	}
+
+	video := models.Video{
+		Name:      videoName,
+		Source:    filePath,
+		UserID:    userID,
+		CreatedAt: time.Now(),
+		Enabled:   true,
+		Views:     0,
+	}
+
+	if err := database.DB.Create(&video).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to save video in database",
+			"data":    err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"message": "OK",
+		"data":    video,
+	})
+}
+
+func GetVideosByUser(c *fiber.Ctx) error {
+	userID := c.Params("id")
+	db := database.DB
+
+	page, err := strconv.Atoi(c.Query("page", "1"))
+	if err != nil || page <= 0 {
+		page = 1
+	}
+	perPage, err := strconv.Atoi(c.Query("perPage", "10"))
+	if err != nil || perPage <= 0 {
+		perPage = 10
+	}
+
+	offset := (page - 1) * perPage
+
+	var videos []models.Video
+	var totalVideos int64
+
+	err = db.Model(&models.Video{}).Where("user_id = ?", userID).Count(&totalVideos).Error
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching video count",
+		})
+	}
+
+	err = db.Preload("Formats").Preload("Comments").Where("user_id = ?", userID).
+		Limit(perPage).Offset(offset).Find(&videos).Error
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error fetching videos",
+		})
+	}
+
+	totalPages := int(totalVideos / int64(perPage))
+	if totalVideos%int64(perPage) > 0 {
+		totalPages++
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "OK",
+		"data":    videos,
+		"pager": fiber.Map{
+			"current": page,
+			"total":   totalPages,
+		},
 	})
 }
