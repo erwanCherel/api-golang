@@ -2,6 +2,7 @@ package userHandler
 
 import (
 	"fmt"
+	"log"
 	"myapi/database"
 	"myapi/models"
 	"path/filepath"
@@ -259,6 +260,7 @@ func CreateVideo(c *fiber.Ctx) error {
 	id := c.Params("id")
 	userID, err := strconv.Atoi(id)
 	if err != nil {
+		log.Printf("Invalid user ID: %v", id)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid user ID",
 			"data":    nil,
@@ -267,6 +269,7 @@ func CreateVideo(c *fiber.Ctx) error {
 
 	file, err := c.FormFile("source")
 	if err != nil {
+		log.Println("No video file uploaded:", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "No video file uploaded",
 			"data":    err.Error(),
@@ -275,6 +278,7 @@ func CreateVideo(c *fiber.Ctx) error {
 
 	videoName := c.FormValue("name")
 	if videoName == "" {
+		log.Println("Video name is required")
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Video name is required",
 			"data":    nil,
@@ -285,7 +289,9 @@ func CreateVideo(c *fiber.Ctx) error {
 	fileName := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
 	filePath := filepath.Join(publicPath, fileName)
 
+	log.Printf("Saving file to: %s", filePath)
 	if err := c.SaveFile(file, filePath); err != nil {
+		log.Println("Failed to save video:", err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to save video",
 			"data":    err.Error(),
